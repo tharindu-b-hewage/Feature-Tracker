@@ -9,7 +9,7 @@ int main()
 {
 	cv::Mat image = cv::imread("dog.jpg");
 	cv::imshow("image", image);
-	cv::waitKey(0);
+	cv::waitKey(0); // sfdfdd
     return 0;
 }
 
