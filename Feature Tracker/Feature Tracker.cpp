@@ -40,7 +40,7 @@ int main()
 	std::cout << "Processing Done..." << std::endl;
 
 	cv::imshow("image", image);
-	cv::imshow("image2", Corners);
+	//cv::imshow("image2", Corners);
 
 	cv::waitKey(0); // sfdfdd
     return 0;
