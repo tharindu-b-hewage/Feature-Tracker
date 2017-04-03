@@ -1,4 +1,5 @@
 #include "FeatureTracker.h"
+#define KLT_ACCURACY_THRESHOLD 0.08
 
 using namespace cv;
 
@@ -206,6 +207,7 @@ namespace Panaroma {
 		std::vector<cv::Point> outputArray;
 		std::vector<bool> index;
 
+		int r = 0;
 		for (cv::Point p : _inputFeaturePoint)
 		{
 			if ((p.x - WindowSize / 2) < 0 || (p.x + WindowSize / 2) > _frame_t0.cols || (p.y - WindowSize / 2) < 0 || (p.y + WindowSize / 2) > _frame_t0.rows)
@@ -215,7 +217,7 @@ namespace Panaroma {
 				continue;
 			}
 				
-			std::cout << p.x << "," << p.y << "\n";
+			//std::cout << p.x << "," << p.y << "| Remaining: "<< _inputFeaturePoint.size() - r << "\n";
 			Rect ROI = Rect((p.x - WindowSize / 2), (p.y - WindowSize / 2), WindowSize, WindowSize); //Mat temp = _frame_t0; rectangle(temp, ROI, Scalar(0, 0, 255), 10); imshow("temp", temp); waitKey(0);
 			double sum_Ix2 = sum(Ix2(ROI))[0], sum_Iy2 = sum(Iy2(ROI))[0], sum_IxIy = sum(IxIy(ROI))[0]; 
 			double _deretminant = sum_Ix2*sum_Iy2 - sum_IxIy*sum_IxIy;
@@ -245,9 +247,9 @@ namespace Panaroma {
 
 				u = (-sum_Iy2 * sum_IxIt + sum_IxIy * sum_IyIt) / _deretminant;
 				v = (-sum_Ix2 * sum_IyIt + sum_IxIy * sum_IxIt) / _deretminant;
-							std::cout << "u,v-> " << u << "," << v << /*"  | float Value:  " << (-sum_Iy2 * sum_IxIt + sum_IxIy * sum_IyIt) / _deretminant <<*/ std::endl;
+							//std::cout << "u,v-> " << u << "," << v << /*"  | float Value:  " << (-sum_Iy2 * sum_IxIt + sum_IxIy * sum_IyIt) / _deretminant <<*/ std::endl;
 				//Compare values
-				if ( (abs(u - _u)/_u)<0.08 && (abs(v - _v) / _v)<0.08)
+				if ( (abs(u - _u)/_u)<KLT_ACCURACY_THRESHOLD && (abs(v - _v) / _v)<KLT_ACCURACY_THRESHOLD)
 				{
 					success = true;
 					break;
@@ -266,6 +268,7 @@ namespace Panaroma {
 				outputArray.push_back(cv::Point(0, 0));
 				index.push_back(false);
 			}
+			r++;
 		}
 		//std::cin.get();
 		return std::pair<std::vector<cv::Point>, std::vector<bool>>(outputArray,index);
