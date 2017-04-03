@@ -1,5 +1,5 @@
 #include "FeatureTracker.h"
-#define KLT_ACCURACY_THRESHOLD 0.08
+#define KLT_ACCURACY_THRESHOLD 0.3
 
 using namespace cv;
 
@@ -114,6 +114,8 @@ namespace Panaroma {
 				//std::cout << (src_gray.cols - (WIN_SIZE / 2)) -y << "," << (src_gray.rows - (WIN_SIZE / 2)) -x << std::endl;
 				}
 				*///Testing	
+
+				//std::cout << "harris value: "<< (deretminant - alpha * trace * trace) << std::endl; std::cin.get();
 
 				if ((deretminant - alpha * trace * trace) < taur)
 				{
