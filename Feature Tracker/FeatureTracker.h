@@ -6,6 +6,10 @@
 #include <opencv2\imgproc\imgproc.hpp>
 #include  <iostream>
 
+#define KLT_ACCURACY_THRESHOLD 0.2
+#define KLT_PYRAMID_DEPTH 4
+
+
 namespace Panaroma{
 	class FeatureTracker
 	{
@@ -17,6 +21,8 @@ namespace Panaroma{
 		static void nonMaximaSuppression(const cv::Mat& src, const int sz, cv::Mat& dst, const cv::Mat mask);
 		static std::pair<std::vector<cv::Point>, std::vector<bool>> KLTtracker(std::vector<cv::Point> _inputFeaturePoint, cv::Mat _frame_t0, cv::Mat _frame_t1);
 		static cv::Mat bilinearWindow(cv::Mat reference, double x, double y, int windowSize); // Cordination for the top left corner in window
+		static cv::Mat nonMaximaSuppression(const cv::Mat src, const int sz);
+		static void RelativeTreshold(cv::Mat src,cv::Mat reference, double ThresholdLevel);
 	};
 }
 
